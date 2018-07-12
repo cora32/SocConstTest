@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="soc_friend_width">96dp</dimen>
+    <dimen name="soc_friend_height">138dp</dimen>
+</resources>
