@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, PermFragment())
+                .replace(R.id.container, SocConstPermFragment())
                 .commit()
     }
 }

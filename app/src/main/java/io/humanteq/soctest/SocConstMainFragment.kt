@@ -44,13 +44,13 @@ class MainFragment : Fragment() {
 //            onNext()
 //        }
 
-        namer.setOnEditorActionListener(TextView.OnEditorActionListener { textView, id, keyEvent ->
+        namer.setOnEditorActionListener(TextView.OnEditorActionListener { tv, id, _ ->
             if (id == 1337 || id == EditorInfo.IME_NULL) {
-                namer.setText("")
-                namer.hideKeyboard()
-
-                Handler().postDelayed({ onNext(textView.text.toString()) }, 400L)
-                return@OnEditorActionListener true
+                if (tv.text.toString().isNotEmpty()) {
+                    namer.hideKeyboard()
+                    Handler().postDelayed({ onNext(tv.text.toString()) }, 400L)
+                    return@OnEditorActionListener true
+                }
             }
             false
         })
@@ -61,6 +61,7 @@ class MainFragment : Fragment() {
     }
 
     private fun onNext(text: String = "") {
+        namer.setText("")
         scroll.scrollTo(0, 0)
         flexbox.onGroupNamed(text)
     }
@@ -106,7 +107,7 @@ class MainFragment : Fragment() {
     private fun showResult() {
         fragmentManager?.beginTransaction()
                 ?.setCustomAnimations(R.animator.frag_enter, R.animator.frag_exit)
-                ?.replace(R.id.container, ResultFragment())
+                ?.replace(R.id.container, SocConstResultFragment())
                 ?.commit()
     }
 }

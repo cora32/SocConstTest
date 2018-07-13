@@ -12,6 +12,7 @@ import android.support.v4.widget.CircularProgressDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import com.google.android.flexbox.FlexboxLayout
 import io.humanteq.soctest.databinding.SocItemLayoutBinding
@@ -47,7 +48,24 @@ class SocFlexboxLayout : FlexboxLayout {
 
     fun onGroupNamed(groupName: String) {
         collapse()
+        showLabel(groupName)
         slideToLeft()
+    }
+
+    private var label: TextView? = null
+    private fun showLabel(groupName: String) {
+        label = LayoutInflater.from(context)
+                .inflate(R.layout.soc_const_label, this, false) as TextView
+        label?.let { label ->
+            label.text = groupName
+            (parent as ViewGroup).addView(label)
+
+            label.post {
+                label.animate().alpha(1f).duration = 400
+                label.x = getScreenWidth(context) / 2f - label.width / 2f
+                label.y = yCenter + socFriendHeight - 100
+            }
+        }
     }
 
     private fun slideToLeft() {
@@ -61,10 +79,11 @@ class SocFlexboxLayout : FlexboxLayout {
                 }
 
                 SpringAnimation(it, DynamicAnimation.X).setSpring(springForceX).start()
+                SpringAnimation(label, DynamicAnimation.X).setSpring(springForceX).start()
             }
-        }, 600L)
+        }, 1000L)
 
-        Handler().postDelayed({ slideFromRight() }, 800L)
+        Handler().postDelayed({ slideFromRight() }, 1200L)
     }
 
     private fun slideFromRight() {
@@ -77,7 +96,7 @@ class SocFlexboxLayout : FlexboxLayout {
                 }
             }, 400L)
             Handler().postDelayed({ collapse() }, 500L)
-            Handler().postDelayed({ expand() }, 1100L)
+            Handler().postDelayed({ expand() }, 1200L)
         }
     }
 
@@ -97,6 +116,7 @@ class SocFlexboxLayout : FlexboxLayout {
             return false
         }
 
+        (parent as ViewGroup).removeView(label)
         removeAllViews()
         friends.forEach { achievement ->
             val binding = SocItemLayoutBinding.inflate(
