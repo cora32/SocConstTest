@@ -79,7 +79,7 @@ class MainFragment : Fragment() {
     }
 
     private fun getMockList(): List<List<SocFriend>> = arrayListOf<List<SocFriend>>().apply {
-        repeat(3) {
+        repeat(1) {
             add(getMockFriendList())
         }
     }
@@ -129,4 +129,4 @@ private fun EditText.showKeyboard() {
 
 }
 
-private fun <E> ArrayList<E>.getRandom(): E = this[(0..size).random()]
+fun <E> ArrayList<E>.getRandom(): E = this[(0..size).random()]
